@@ -12,6 +12,17 @@ from warnings import warn as _warn
 import time
 import copy
 
+TERM_COLOR_NORMAL  = ""
+TERM_COLOR_RESET   = "\033[0m"
+TERM_COLOR_BOLD    = "\033[1m"
+TERM_COLOR_RED     = "\033[91m"    # bright red
+TERM_COLOR_GREEN   = "\033[32m"
+TERM_COLOR_YELLOW  = "\033[33m"
+TERM_COLOR_BLUE    = "\033[94m"    # bright blue
+TERM_COLOR_MAGENTA = "\033[35m"
+TERM_COLOR_CYAN    = "\033[36m"
+TERM_COLOR_GRAY    = "\033[90m"    # bright black
+
 try:
     import threading
 except ImportError:
@@ -282,9 +293,9 @@ class Trace:
                 retval_fmt = ""
                 if self.opt_retval and arg:
                     retval_fmt = " = %s;" % arg
-                outfmt = " %7.3f %s [%6d] | %s}%s /* %s */" \
-                    % (time_val, time_unit, pid, space, retval_fmt, code.co_name)
-                print(outfmt)
+                outfmt = " %7.3f %s [%6d] | %s}%s" \
+                    % (time_val, time_unit, pid, space, retval_fmt)
+                print(outfmt, "%s/* %s */%s" % (TERM_COLOR_GRAY, code.co_name, TERM_COLOR_RESET))
                 return None
 
 def _err_exit(msg):
