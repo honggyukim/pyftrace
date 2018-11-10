@@ -125,10 +125,10 @@ def get_time_and_unit(duration):
         time_unit = "us"
     elif duration < 1000000000:
         divider = 1000000
-        time_unit = "ms"
+        time_unit = TERM_COLOR_GREEN + "ms" + TERM_COLOR_RESET
     else:
         divider = 1000000000
-        time_unit = " s"
+        time_unit = TERM_COLOR_YELLOW + " s" + TERM_COLOR_RESET
 
     return (duration / divider, time_unit)
 
