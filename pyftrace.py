@@ -213,6 +213,9 @@ class Trace:
         pid = os.getpid()
         mtd = self.get_thread_data(pid)
         rstack = self.get_ret_stack(mtd, mtd['depth'])
+        class_name = ''
+        if 'self' in frame.f_locals:
+            class_name = str(frame.f_locals['self'].__class__) + '.'
         code = frame.f_code
         filename = frame.f_globals.get('__file__', None)
         if not filename:
@@ -229,8 +232,8 @@ class Trace:
                 indent = mtd['depth'] * 2
                 space = " " * indent
                 rstack['start_time'] = time.time()
-                outfmt = "            [%6d] | %s%s() {" \
-                        % (pid, space, code.co_name)
+                outfmt = "            [%6d] | %s%s%s() {" \
+                        % (pid, space, class_name, code.co_name)
                 print(outfmt)
                 mtd['depth'] += 1
                 mtd['rstacks'].append({})
